@@ -10,10 +10,6 @@ secrets_client = boto3.client("secretsmanager", region_name=settings.AWS_REGION_
 
 
 def upload_to_s3(file_obj, filename: str) -> str:
-    """
-    Upload a Django InMemoryUploadedFile/File object to S3 and
-    return the public URL (assuming bucket is public or via CloudFront).
-    """
     bucket = settings.AWS_S3_BUCKET_NAME
 
     try:
@@ -30,10 +26,6 @@ def upload_to_s3(file_obj, filename: str) -> str:
 
 
 def send_order_event_to_sqs(order) -> None:
-    """
-    Send an order event to SQS so that a Lambda can pick it up
-    and send an email via SNS.
-    """
     queue_url = settings.AWS_SQS_QUEUE_URL
 
     body = {
@@ -49,9 +41,6 @@ def send_order_event_to_sqs(order) -> None:
 
 
 def get_rds_secret(secret_name: str | None = None) -> dict:
-    """
-    Example usage of Secrets Manager for RDS details.
-    """
     secret_name = secret_name or os.environ.get("RDS_SECRET_NAME")
 
     if not secret_name:

@@ -15,10 +15,6 @@ class RegisterForm(UserCreationForm):
 
 
 class OrderForm(forms.ModelForm):
-    """
-    Form used by users when creating or updating an order.
-    Image is uploaded to S3 in the view, so here we accept FileField.
-    """
     upload_image = forms.ImageField(required=True)
 
     class Meta:

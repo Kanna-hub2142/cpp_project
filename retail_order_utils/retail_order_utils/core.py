@@ -5,7 +5,6 @@ import string
 from typing import Dict
 from django.utils import timezone
 
-# Default mapping from order status to extra days
 DEFAULT_STATUS_DAYS: Dict[str, int] = {
     "ORDERED": 10,
     "PROCESSING": 7,

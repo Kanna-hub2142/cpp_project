@@ -45,21 +45,15 @@ def order_list_view(request):
 
 @login_required
 def order_create_view(request, product_id=None):
-    """
-    Create new order. User must upload an image;
-    we store it in S3 and save URL in DB.
-    """
     if request.method == "POST":
         form = OrderForm(request.POST, request.FILES)
         if form.is_valid():
             order_utils = OrderUtils()
             upload_image = form.cleaned_data["upload_image"]
 
-            # Upload to S3
             filename = f"user_uploads/{request.user.id}/{upload_image.name}"
             image_url = upload_to_s3(upload_image, filename)
 
-            # Generate order estimate
             estimate = order_utils.create_order_estimate(status="ORDERED")
 
             order = form.save(commit=False)
@@ -108,7 +102,6 @@ def order_update_view(request, pk):
             messages.success(request, "Order updated successfully!")
             return redirect("order_detail", pk=order.pk)
     else:
-        # When editing, we do not require a fresh image upload
         class EditOrderForm(OrderForm):
             upload_image = None
 
@@ -145,11 +138,6 @@ def is_staff(user):
 
 @user_passes_test(is_staff)
 def admin_order_status_update_view(request, pk):
-    """
-    Admin updates order status only.
-    When status changes, recalculate estimated delivery using library
-    and send SQS message.
-    """
     order = get_object_or_404(Order, pk=pk)
 
     if request.method == "POST":
@@ -182,7 +170,6 @@ def order_update_view(request, pk):
     if request.method == "POST":
         form = OrderUpdateForm(request.POST, request.FILES, instance=order)
         if form.is_valid():
-            # If new image uploaded
             upload_image = form.cleaned_data.get("upload_image")
             if upload_image:
                 filename = f"user_uploads/{request.user.id}/{upload_image.name}"
