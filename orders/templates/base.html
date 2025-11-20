@@ -40,9 +40,15 @@
         <li class="nav-item">
           <span class="navbar-text me-3">Hi, {{ user.username }}</span>
         </li>
+        {% if user.is_authenticated %}
         <li class="nav-item">
-          <a class="btn btn-outline-light btn-sm" href="{% url 'logout' %}">Logout</a>
+          <form method="post" action="{% url 'logout' %}" class="d-inline">
+            {% csrf_token %}
+            <button class="btn btn-outline-light btn-sm" type="submit">Logout</button>
+          </form>
         </li>
+{% endif %}
+
         {% else %}
         <li class="nav-item">
           <a class="btn btn-outline-light btn-sm me-2" href="{% url 'login' %}">Login</a>

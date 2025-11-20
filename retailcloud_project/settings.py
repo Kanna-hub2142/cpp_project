@@ -74,12 +74,12 @@ WSGI_APPLICATION = 'retailcloud_project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
 
 # Password validation
@@ -131,3 +131,17 @@ import os
 AWS_REGION_NAME = os.environ.get("AWS_REGION_NAME","us-east-1")
 AWS_S3_BUCKET_NAME = os.environ.get("AWS_S3_BUCKET_NAME","x24313530-s3")
 AWS_SQS_QUEUE_URL = os.environ.get("AWS_SQS_QUEUE_URL","https://sqs.us-east-1.amazonaws.com/494385029394/x24313530-sqs")
+
+from orders.aws_utils import get_rds_secret
+secret = get_rds_secret(secret_name="x24313530-sm")
+
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": secret["NAME"],
+        "USER": secret["USER"],
+        "PASSWORD": secret["PASSWORD"],
+        "HOST": secret["HOST"],
+        "PORT": secret["PORT"],
+    }
+}
