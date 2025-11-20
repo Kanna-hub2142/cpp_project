@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Admin Dashboard — Manage Orders</h2>
+
+<div class="card shadow-sm">
+  <div class="card-body">
+    <table class="table table-hover align-middle">
+      <thead class="table-dark">
+        <tr>
+          <th>Order ID</th>
+          <th>User</th>
+          <th>Product</th>
+          <th>Status</th>
+          <th>Qty</th>
+          <th>Estimated Delivery</th>
+          <th>Image</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for order in orders %}
+        <tr>
+          <td>{{ order.order_id }}</td>
+          <td>{{ order.user.username }}</td>
+          <td>{{ order.product.name }}</td>
+          <td>
+            <span class="badge bg-secondary">{{ order.get_status_display }}</span>
+          </td>
+          <td>{{ order.quantity }}</td>
+          <td>{{ order.estimated_delivery|date:"Y-m-d" }}</td>
+
+          <td>
+            <img src="{{ order.uploaded_image_url }}"
+                 class="img-thumbnail"
+                 style="width: 70px; height: 70px; object-fit: cover;">
+          </td>
+
+          <td>
+            <a href="{% url 'admin_order_status' order.pk %}"
+               class="btn btn-sm btn-primary">
+              Update Status
+            </a>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="8" class="text-center text-muted py-4">
+            No orders found.
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Delete Order{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <div class="card shadow-sm">
+      <div class="card-body text-center">
+        <h4 class="mb-3">Delete order {{ order.order_id }}?</h4>
+        <p>This action cannot be undone.</p>
+        <form method="post">
+          {% csrf_token %}
+          <button class="btn btn-danger me-2" type="submit">Yes, delete</button>
+          <a class="btn btn-secondary" href="{% url 'order_detail' order.pk %}">Cancel</a>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

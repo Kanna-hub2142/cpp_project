@@ -1,0 +1,12 @@
+body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.card {
+    border-radius: 1rem;
+}
+
+img.card-img-top {
+    max-height: 220px;
+    object-fit: cover;
+}

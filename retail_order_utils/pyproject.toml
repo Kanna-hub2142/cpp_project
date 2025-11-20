@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "retail_order_utils"
+version = "0.0.4"
+description = "Library for retail order IDs, tracking and delivery estimation."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [
+  { name = "kishorekanna", email = "Knnkshr@gmail.com" }
+]
+
+dependencies = [
+    "django"
+]
+
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Intended Audience :: Developers",
+  "Topic :: Software Development :: Libraries",
+]
+
+[project.urls]
+Homepage = "https://example.com"
